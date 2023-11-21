@@ -1,0 +1,45 @@
+# https://github.com/GoogleCloudPlatform/cpp-samples/blob/c2dc41951f9863119d8b9faccc818d251aefe54c/bigquery/write/.clang-tidy
+Checks: >
+  -*,
+  bugprone-*,
+  google-*,
+  misc-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-exception-escape,
+  -google-readability-namespace-comments,
+  -google-runtime-int,
+  -google-runtime-references,
+  -misc-non-private-member-variables-in-classes,
+  -readability-named-parameter,
+  -readability-braces-around-statements,
+  -readability-magic-numbers,
+  -readability-identifier-length
+
+CheckOptions:
+  - { key: readability-identifier-naming.NamespaceCase, value: lower_case }
+  - { key: readability-identifier-naming.ClassCase, value: CamelCase }
+  - { key: readability-identifier-naming.StructCase, value: CamelCase }
+  - {
+      key: readability-identifier-naming.TemplateParameterCase,
+      value: CamelCase,
+    }
+  - { key: readability-identifier-naming.FunctionCase, value: lower_case }
+  - { key: readability-identifier-naming.VariableCase, value: lower_case }
+  - { key: readability-identifier-naming.PrivateMemberPrefix, value: _ }
+  - { key: readability-identifier-naming.ProtectedMemberPrefix, value: _ }
+  - { key: readability-identifier-naming.ConstantMemberCase, value: CamelCase }
+  - {
+      key: readability-identifier-naming.MacroDefinitionCase,
+      value: UPPER_CASE,
+    }
+  - { key: readability-identifier-naming.EnumConstantCase, value: CamelCase }
+  - {
+      key: readability-identifier-naming.ConstexprVariableCase,
+      value: CamelCase,
+    }
+  - { key: readability-identifier-naming.GlobalConstantCase, value: CamelCase }
+  - { key: readability-identifier-naming.StaticConstantCase, value: CamelCase }
