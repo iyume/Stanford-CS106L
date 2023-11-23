@@ -6,7 +6,7 @@
         {
             "label": "Build: current active file",
             "type": "shell",
-            "command": "clang++-17 -g `cat ${workspaceFolder}/compile_flags.txt` -o ${fileDirname}/a.out ${file}",
+            "command": "clang++-17 -g `cat ${workspaceFolder}/compile_flags.txt` -o ${fileDirname}/main ${file}",
         },
         {
             "label": "Build: cmake assignment1",

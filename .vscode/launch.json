@@ -8,8 +8,8 @@
       "name": "Debug current file",
       "type": "lldb",
       "request": "launch",
-      "program": "${workspaceFolder}/a.out",
-      "cwd": "${workspaceFolder}",
+      "program": "${fileDirname}/main",
+      "cwd": "${fileDirname}",
       "preLaunchTask": "Build: current active file",
     },
     {

@@ -12,14 +12,14 @@
 using StudentInfo = std::pair<std::string, int>;
 
 // signature as said in assignment
-auto create_map(const std::string& filename)
+auto createMap(const std::string& filename)
     -> std::map<std::string, StudentInfo> {
   std::ifstream file(filename, std::ios::binary);
   if (!file.is_open()) {
     throw std::runtime_error("file not exists");
   }
 
-  decltype(create_map("")) res;
+  decltype(createMap("")) res;
   std::string line;
   std::string cell;
 
@@ -44,7 +44,7 @@ auto create_map(const std::string& filename)
 }
 
 // signature as said in assignment
-void print_map(std::map<std::string, StudentInfo>& csMap) {
+void printMap(std::map<std::string, StudentInfo>& csMap) {
   for (const auto& [name, info] : csMap) {
     if (!(info.first == "Stanford University")) {
       continue;
@@ -54,6 +54,6 @@ void print_map(std::map<std::string, StudentInfo>& csMap) {
 }
 
 auto main() -> int {
-  auto map = create_map("lecture6_exercise_w23.csv");
-  print_map(map);
+  auto map = createMap("lecture6_exercise_w23.csv");
+  printMap(map);
 }
