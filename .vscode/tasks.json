@@ -4,9 +4,14 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build current active file",
+            "label": "Build: current active file",
             "type": "shell",
             "command": "clang++-17 -g `cat ${workspaceFolder}/compile_flags.txt` -o ${fileDirname}/a.out ${file}",
+        },
+        {
+            "label": "Build: cmake assignment1",
+            "type": "shell",
+            "command": "cmake -B${workspaceFolder}/assignment1/build -S${workspaceFolder}/assignment1 -DCMAKE_TOOLCHAIN_FILE=${workspaceFolder}/assignment1/vcpkg/scripts/buildsystems/vcpkg.cmake && cmake --build ${workspaceFolder}/assignment1/build",
         }
     ]
 }

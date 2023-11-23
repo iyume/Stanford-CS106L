@@ -10,7 +10,15 @@
       "request": "launch",
       "program": "${workspaceFolder}/a.out",
       "cwd": "${workspaceFolder}",
-      "preLaunchTask": "Build current active file",
+      "preLaunchTask": "Build: current active file",
+    },
+    {
+      "name": "Debug assignment1",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/assignment1/build/main",
+      "cwd": "${workspaceFolder}/assignment1",
+      "preLaunchTask": "Build: cmake assignment1",
     }
   ]
 }
