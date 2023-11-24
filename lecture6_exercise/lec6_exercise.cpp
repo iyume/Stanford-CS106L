@@ -12,8 +12,7 @@
 using StudentInfo = std::pair<std::string, int>;
 
 // signature as said in assignment
-auto createMap(const std::string& filename)
-    -> std::map<std::string, StudentInfo> {
+auto createMap(const std::string& filename) -> std::map<std::string, StudentInfo> {
   std::ifstream file(filename, std::ios::binary);
   if (!file.is_open()) {
     throw std::runtime_error("file not exists");

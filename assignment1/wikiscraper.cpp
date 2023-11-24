@@ -1,16 +1,14 @@
 #include "wikiscraper.hpp"
+#include <cpr/cpr.h>
 #include <algorithm>
 #include <iostream>
+#include <ostream>
 #include <stdexcept>
 #include <unordered_map>
 #include <unordered_set>
 #include "error.hpp"
 
-using std::cerr;
-using std::cout;
-using std::endl;
 using std::string;
-using std::unordered_map;
 using std::unordered_set;
 
 /*
@@ -27,17 +25,19 @@ using std::unordered_set;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // BEGIN STUDENT CODE HERE
-bool valid_wikilink(const string& link) {
+auto validWikilink(const string& link) -> bool {
   // replace these lines!
-  (void)link;
-  throw std::invalid_argument("Not implemented yet.\n");
+  return (std::all_of(link.begin(), link.end(), [](auto c) -> bool { return c != ':' && c != '#'; }
+                      // current clangd can't infer auto lambda.
+                      // See: https://github.com/clangd/clangd/issues/493
+                      ));
 }
 // END STUDENT CODE HERE
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-unordered_set<string> findWikiLinks(const string& inp) {
+auto findWikiLinks(const string& inp) -> unordered_set<string> {
   /* Delimiter for start of a link  */
-  static const string delim = "href=\"/wiki/";
+  static const string Delim = "href=\"/wiki/";
 
   unordered_set<string> ret;
 
@@ -54,7 +54,12 @@ unordered_set<string> findWikiLinks(const string& inp) {
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     // BEGIN STUDENT CODE HERE
     // Please delete this line when you start working!
-    throw std::invalid_argument("Not implemented yet.\n");
+    url_start = std::search(url_start, end, Delim.begin(),
+                            Delim.end());  // or string.find as well
+    if (url_start == end) {                // end refers to '\0'
+      break;
+    }
+    url_start += static_cast<long>(Delim.length());
     // END STUDENT CODE HERE
     ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -68,7 +73,10 @@ unordered_set<string> findWikiLinks(const string& inp) {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     // BEGIN STUDENT CODE HERE (delete/edit this line)
-    auto url_end = url_start;
+    auto url_end = std::find(url_start, end, '"');
+    if (url_end == inp.end()) {
+      throw std::runtime_error("invalid format");
+    }
     // END STUDENT CODE HERE
     ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -80,7 +88,7 @@ unordered_set<string> findWikiLinks(const string& inp) {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     // BEGIN STUDENT CODE HERE (delete/edit this line)
-    string link;
+    auto link = string(url_start, url_end);
     // END STUDENT CODE HERE
     ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -88,7 +96,7 @@ unordered_set<string> findWikiLinks(const string& inp) {
      * Only add link to the set if it is valid i.e. doesn't
      * contain a ':' or a '#'.
      */
-    if (valid_wikilink(link)) {
+    if (validWikilink(link)) {
       ret.insert(link);
     }
 
@@ -102,45 +110,38 @@ unordered_set<string> findWikiLinks(const string& inp) {
  * |                Don't edit anything below here, but take a peek! |
  * ==================================================================================
  */
-unordered_set<string> WikiScraper::getLinkSet(const string& page_name) {
-  if (linkset_cache.find(page_name) == linkset_cache.end()) {
+auto WikiScraper::getLinkSet(const string& page_name) -> unordered_set<string> {
+  if (this->_linkset_cache.find(page_name) == this->_linkset_cache.end()) {
     auto links = findWikiLinks(getPageSource(page_name));
-    linkset_cache[page_name] = links;
+    this->_linkset_cache[page_name] = links;
   }
-  return linkset_cache[page_name];
+  return this->_linkset_cache[page_name];
 }
 
 WikiScraper::WikiScraper() {
   (void)getPageSource("Main_Page");
 }
 
-string createPageUrl(const string& page_name) {
+auto createPageUrl(const string& page_name) -> string {
   return "https://en.wikipedia.org/wiki/" + page_name;
 }
 
-void notFoundError(const string& msg,
-                   const string& page_name,
-                   const string& url) {
+void notFoundError(const string& msg, const string& page_name, const string& url) {
   const string title = "    AN ERROR OCCURED DURING EXECUTION.    ";
   const string border(title.size() + 4, '*');
-  cerr << endl;
+  std::cerr << '\n';
   mylog::error(border);
   mylog::error("* " + title + " *");
   mylog::error(border);
-  mylog::error();
   mylog::error("Reason: " + msg);
-  mylog::error();
   mylog::error("Debug Information:");
-  mylog::error();
   mylog::error("\t- Input parameter: " + page_name);
   mylog::error("\t- Attempted url: " + url);
-  mylog::error();
 }
 
-string WikiScraper::getPageSource(const string& page_name) {
-  const static string not_found =
-      "Wikipedia does not have an article with this exact name.";
-  if (page_cache.find(page_name) == page_cache.end()) {
+auto WikiScraper::getPageSource(const string& page_name) -> string {
+  const static string NotFound = "Wikipedia does not have an article with this exact name.";
+  if (this->_page_cache.find(page_name) == this->_page_cache.end()) {
     string url = createPageUrl(page_name);
     // using the cpr library to get the HTML content of a webpage!
     // we do so by aking a GET REST request to a wikipedia webpage, which
@@ -152,12 +153,10 @@ string WikiScraper::getPageSource(const string& page_name) {
 
     string ret = r.text;
     if (r.status_code != 200) {
-      notFoundError("Couldn't get page source. Have you entered a valid link?",
-                    page_name, url);
+      notFoundError("Couldn't get page source. Have you entered a valid link?", page_name, url);
       return "";
     }
-    if (std::search(ret.begin(), ret.end(), not_found.begin(),
-                    not_found.end()) != ret.end()) {
+    if (std::search(ret.begin(), ret.end(), NotFound.begin(), NotFound.end()) != ret.end()) {
       notFoundError("Page does not exist!", page_name, url);
       return "";
     }
@@ -165,7 +164,7 @@ string WikiScraper::getPageSource(const string& page_name) {
     if (indx != string::npos) {
       return ret.substr(0, indx);
     }
-    page_cache[page_name] = ret;
+    this->_page_cache[page_name] = ret;
   }
-  return page_cache[page_name];
+  return this->_page_cache[page_name];
 }

@@ -11,11 +11,11 @@ Checks: >
   -bugprone-easily-swappable-parameters,
   -bugprone-exception-escape,
   -google-readability-namespace-comments,
+  -google-readability-todo,
   -google-runtime-int,
   -google-runtime-references,
   -misc-non-private-member-variables-in-classes,
   -readability-named-parameter,
-  -readability-braces-around-statements,
   -readability-magic-numbers,
   -readability-identifier-length
 
