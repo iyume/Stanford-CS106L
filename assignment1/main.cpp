@@ -158,7 +158,7 @@ auto main() -> int {
     throw std::invalid_argument("path not exist or not a file");
   }
   ifstream file(filepath);
-  int num_pairs;
+  int num_pairs = 0;
   // parse the first line as the number of tokens
   file >> num_pairs;
 
