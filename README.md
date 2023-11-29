@@ -71,4 +71,4 @@ You passed all required tests! Great job!
 ----- End of Test Harness -----
 ```
 
-> The speed is extremely fast so that some insertions failed sometimes. See tests.cpp:1980 `VERIFY_TRUE(10*my_map_timing[0] < my_map_timing[3], __LINE__); // Ensure runtime of N = 10 is much faster than N = 10000`
+> The speed of optimized build is extremely fast so that some insertions failed sometimes. See tests.cpp:1680 `// you should be able to easily beat this benchmark if you actually implemented move`
