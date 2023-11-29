@@ -19,6 +19,14 @@
       "program": "${workspaceFolder}/assignment1/build/main",
       "cwd": "${workspaceFolder}/assignment1",
       "preLaunchTask": "Build: cmake assignment1",
+    },
+    {
+      "name": "Debug assignment2",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/assignment2/main",
+      "cwd": "${workspaceFolder}/assignment2",
+      "preLaunchTask": "Build: assignment2"
     }
   ]
 }

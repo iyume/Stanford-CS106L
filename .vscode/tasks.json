@@ -12,6 +12,11 @@
             "label": "Build: cmake assignment1",
             "type": "shell",
             "command": "rm -f ${workspaceFolder}/assignment1/build/CMakeCache.txt && cmake -B${workspaceFolder}/assignment1/build -S${workspaceFolder}/assignment1 -DCMAKE_TOOLCHAIN_FILE=${workspaceFolder}/assignment1/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang-17 -DCMAKE_CXX_COMPILER=clang++-17 && cmake --build ${workspaceFolder}/assignment1/build",
+        },
+        {
+            "label": "Build: assignment2",
+            "type": "shell",
+            "command": "clang++-17 -g -std=c++17 -o assignment2/main assignment2/main.cpp"
         }
     ]
 }

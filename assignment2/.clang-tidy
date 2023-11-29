@@ -13,6 +13,9 @@ Checks: >
   -bugprone-exception-escape,
   -cppcoreguidelines-avoid-magic-numbers,
   -cppcoreguidelines-init-variables,
+  -cppcoreguidelines-owning-memory,
+  -cppcoreguidelines-pro-type-const-cast,
+  -cppcoreguidelines-pro-type-member-init,
   -google-readability-namespace-comments,
   -google-readability-todo,
   -google-runtime-int,
@@ -30,7 +33,7 @@ CheckOptions:
       key: readability-identifier-naming.TemplateParameterCase,
       value: CamelCase,
     }
-  - { key: readability-identifier-naming.FunctionCase, value: camelBack }
+  - { key: readability-identifier-naming.FunctionCase, value: lower_case }
   - { key: readability-identifier-naming.VariableCase, value: lower_case }
   - { key: readability-identifier-naming.PrivateMemberPrefix, value: _ }
   - { key: readability-identifier-naming.ProtectedMemberPrefix, value: _ }
