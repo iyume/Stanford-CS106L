@@ -7,7 +7,7 @@ Course website: http://web.stanford.edu/class/cs106l/index.html
 In this course, I reviewed my C++ skills, understood a lot of concepts and well prepared for CS144.
 However, the assignments are too easy to complete.
 I cost more time on reading the whole implement -- unordered_map is interesting.
-I believe the CS144 warmup assignment will be much more challenging.
+I believe the CS144 assignment will be much more challenging.
 
 This project use the modern LLVM (17.0.4) toolchain -- clang++ as build system, clangd as LSP, lldb as debugger.
 Follow the [instruction](https://apt.llvm.org/) to install them.
